@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import React from "react";
 
-function App() {
+const App = () => {
+  const [quote, setQuote] = useState("");
+
+  const getAdvise = () => {
+    fetch("https://api.adviceslip.com/advice")
+      .then((response) => response.json())
+      .then((data) => {
+        const { advice } = data.slip;
+        setQuote(advice);
+      });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div className="card">
+        <h3 className="heading">{quote}</h3>
+        <button className="button" onClick={getAdvise}>
+           <span>Quote</span>
+        </button>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
